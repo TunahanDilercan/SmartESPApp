@@ -14,11 +14,48 @@ This project enables real-time data collection from various sensors (temperature
 - Real-time data collection from various sensors (temperature, humidity, motion, piezo, gas).
 - Sending remote control commands (e.g., LED control, temperature adjustment).
 - User-friendly interface for monitoring and controlling sensor data within the application.
-- Voice assistant integration (currently inactive) and assistance with troubleshooting issues related to the text assistant.
+- Voice assistant integration with text-based command interface
 - Support for XML-related error reporting and resolution.
 
+## Architectural Improvements (May 2025 Update)
+
+### 1. Repository Pattern
+- Implemented `SensorRepository` that centralizes all data operations
+- Used singleton design pattern to ensure consistent data across app lifecycle
+- Proper background fetching with lifecycle management
+
+### 2. MVVM Architecture
+- Separation of UI (Fragments), business logic (ViewModels), and data (Repository)
+- Each screen has its own ViewModel with specific functionality
+- Fragment lifecycle awareness for proper resource management
+
+### 3. LiveData Implementation
+- All sensor data is now exposed as LiveData for automatic UI updates
+- Survives configuration changes and fragment transitions
+- Prevents memory leaks during device rotation or app switching
+
+### 4. Navigation Fixes
+- HTTP requests continue when navigating between screens
+- Improved fragment transaction handling
+- Bottom navigation properly configured with navigation components
+
+### 5. UI Improvements
+- Responsive layouts with ConstraintLayout
+- Properly sized cards and elements with consistent spacing
+- Fixed scaling issues for various screen sizes
+
 ## Technologies Used
-- **Android (Kotlin):** Mobile application development.
+- **Android (Kotlin):** Mobile application development with MVVM architecture.
+- **ESP8266 (Arduino):** Microcontroller programming for IoT sensors.
+- **HTTP Communication:** RESTful API for data exchange between devices.
+- **Material Design:** Modern and responsive UI components.
+
+## Getting Started
+1. Flash the ESP8266 with the provided Arduino code
+2. Connect to the ESP8266 WiFi network (SSID: SmartHomeSensor)
+3. Install and launch the Android app
+4. Monitor sensor data on the home screen
+5. Use the chat interface to send commands
 - **ESP8266:** IoT sensor management and data collection.
 - **OkHttp:** Data communication using the HTTP protocol.
 - **MVVM:** Structured and maintainable architectural design.

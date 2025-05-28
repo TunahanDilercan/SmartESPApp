@@ -1,0 +1,69 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean Project",
+            "type": "shell",
+            "command": "${workspaceFolder}/android-app/gradlew.bat",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Debug APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/android-app/gradlew.bat",
+            "args": [
+                "assembleDebug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Install on Device",
+            "type": "shell", 
+            "command": "${workspaceFolder}/android-app/gradlew.bat",
+            "args": [
+                "installDebug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/android-app"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Emulator",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", 
+                "Bypass", 
+                "-Command", 
+                "& {$emulatorPath = Join-Path $env:ANDROID_HOME 'emulator'; Set-Location $emulatorPath; ./emulator -list-avds; Write-Host 'Enter the name of the AVD to launch:'; $avdName = Read-Host; if($avdName) { ./emulator -avd $avdName -netdelay none -netspeed full }}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build and Run on Device",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Debug APK",
+                "Install on Device"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

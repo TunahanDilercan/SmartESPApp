@@ -1,23 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
-
-    <TextView
-        android:id="@+id/senderText"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+    
+    <!-- Alınan Mesaj Düzeni -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/receivedMessageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Sender"
-        android:textSize="14sp" />
+        android:maxWidth="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/messageText"
+        <TextView
+            android:id="@+id/receivedMessageSender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="ESP8266" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/receivedMessageBubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#E9ECEF"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/receivedMessageSender">
+
+            <TextView
+                android:id="@+id/receivedMessageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                android:maxWidth="280dp"
+                android:autoLink="web"
+                android:breakStrategy="high_quality"
+                android:hyphenationFrequency="normal"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="2sp"
+                android:text="Merhaba! Size nasıl yardımcı olabilirim?" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/receivedMessageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="#999999"
+            android:layout_marginTop="2dp"
+            android:text="12:30"
+            app:layout_constraintTop_toBottomOf="@id/receivedMessageBubble"
+            app:layout_constraintStart_toStartOf="@id/receivedMessageBubble" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Gönderilen Mesaj Düzeni -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sentMessageLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Message content"
-        android:textSize="16sp" />
-</LinearLayout>
+        android:maxWidth="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sentMessageBubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#2196F3"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/sentMessageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:maxWidth="280dp"
+                android:breakStrategy="high_quality"
+                android:hyphenationFrequency="normal"
+                android:lineSpacingExtra="2sp"
+                android:text="Merhaba, sıcaklık nedir?" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/sentMessageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="#999999"
+            android:layout_marginTop="2dp"
+            android:text="12:31"
+            app:layout_constraintTop_toBottomOf="@id/sentMessageBubble"
+            app:layout_constraintEnd_toEndOf="@id/sentMessageBubble" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

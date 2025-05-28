@@ -1,0 +1,4 @@
+*.xml linguist-language=XML
+**/res/**/*.xml linguist-language=XML
+**/values/*.xml linguist-language=XML
+colors.xml linguist-language=XML

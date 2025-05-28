@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kart Stilleri -->
+    <style name="SensorCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="rippleColor">@color/primary_light</item>
+    </style>
+    
+    <style name="CardTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+    
+    <style name="ValueText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <!-- Buton Stilleri -->
+    <style name="ControlButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="android:padding">0dp</item>
+    </style>
+    
+    <!-- Genel Metin Stilleri -->
+    <style name="StatusText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+        <item name="android:gravity">center</item>
+    </style>
+    
+    <!-- Sohbet Ekranı Stilleri -->
+    <style name="ChatMessageText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:padding">4dp</item>
+    </style>
+    
+    <style name="ChatSenderText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+    
+    <!-- Bottom Navigation Active Indicator Style -->
+    <style name="App.BottomNavigation.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primary_light</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
+    </style>
+    
+    <!-- Sensor Styles -->
+    <style name="SensorTitle" parent="CardTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/text_on_dark</item>
+    </style>
+    
+    <style name="SensorTitle.Centered">
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    
+    <style name="SensorValueLarge" parent="ValueText">
+        <item name="android:textSize">28sp</item>
+    </style>
+    
+    <style name="SensorStatus" parent="StatusText">
+        <item name="android:textAlignment">center</item>
+    </style>
+    
+    <!-- Chat Styles -->
+    <style name="ChatHeaderText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="ChatInputField">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
+    </style>
+    
+    <style name="ChatSendButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+</resources>

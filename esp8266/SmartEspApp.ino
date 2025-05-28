@@ -12,8 +12,8 @@ IPAddress gateway(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 // LED Pins
-const int redLedPin = D1; // GPIO pin for the red LED
-const int blueLedPin = D2; // GPIO pin for the blue LED
+const int redLedPin = D1; // GPIO pin for the red LED sıcaklık arttırma
+const int blueLedPin = D2; // GPIO pin for the blue LED sıcaklık azaltma
 const int pirLedPin = D8; // GPIO pin for PIR-triggered LED
 
 // DHT Sensor Settings
@@ -39,6 +39,14 @@ unsigned long lastActionTime = 0;
 const unsigned long timeout = 15000; // 15 seconds
 unsigned long pirLedStartTime = 0;
 bool pirLedActive = false;
+unsigned long lastDhtReadTime = 0;
+const unsigned long dhtReadInterval = 2000; // Read DHT every 2 seconds to prevent errors
+
+// Cache for sensor readings
+float cachedTemperature = 0;
+float cachedHumidity = 0;
+bool lastPirStatus = false;
+bool lastMq2Status = false;
 
 // Park Status Variables
 bool parkYeriDolu = false; // Initial state of the parking space
@@ -105,22 +113,40 @@ void setup() {
 
   // Define DHT data endpoint
   server.on("/data", []() {
-    float temperature = dht.readTemperature(); // Read temperature
-    float humidity = dht.readHumidity(); // Read humidity
+    // Read DHT sensor with rate limiting to prevent errors
+    unsigned long currentMillis = millis();
+    if (currentMillis - lastDhtReadTime >= dhtReadInterval) {
+      float newTemp = dht.readTemperature();
+      float newHumidity = dht.readHumidity();
+      
+      // Only update cached values if readings are valid
+      if (!isnan(newTemp)) {
+        cachedTemperature = newTemp;
+      }
+      if (!isnan(newHumidity)) {
+        cachedHumidity = newHumidity;
+      }
+      
+      lastDhtReadTime = currentMillis;
+    }
 
-    if (isnan(temperature) || isnan(humidity)) {
+    // Check if we have valid cached data
+    if (isnan(cachedTemperature) || isnan(cachedHumidity)) {
       server.send(500, "application/json", "{\"error\":\"DHT sensor error\"}");
       return;
     }
 
     Serial.print("Temperature: ");
-    Serial.print(temperature);
+    Serial.print(cachedTemperature);
     Serial.println("°C");
     Serial.print("Humidity: ");
-    Serial.print(humidity);
+    Serial.print(cachedHumidity);
     Serial.println("%");
 
-    String json = "{\"temperature\":" + String(temperature, 1) + ",\"humidity\":" + String(humidity, 1) + "}";
+    String json = "{\"temperature\":" + String(cachedTemperature, 1) + 
+                 ",\"humidity\":" + String(cachedHumidity, 1) + 
+                 ",\"status\":\"" + (lastMq2Status ? "Karbondioksit algilandi!" : "Karbondioksit Algilanmadi") + "\"}";
+    
     server.send(200, "application/json", json);
   });
 
@@ -194,22 +220,67 @@ void setup() {
 void loop() {
   server.handleClient(); // Handle HTTP requests
 
+  // Read sensors periodically to update cache
+  unsigned long currentMillis = millis();
+  
+  // Read DHT sensor with rate limiting
+  if (currentMillis - lastDhtReadTime >= dhtReadInterval) {
+    float newTemp = dht.readTemperature();
+    float newHumidity = dht.readHumidity();
+    
+    // Only update cached values if readings are valid
+    if (!isnan(newTemp)) {
+      cachedTemperature = newTemp;
+    }
+    if (!isnan(newHumidity)) {
+      cachedHumidity = newHumidity;
+    }
+    
+    lastDhtReadTime = currentMillis;
+  }
+  
+  // Update MQ2 sensor cache
+  lastMq2Status = digitalRead(mq2DigitalPin) == HIGH;
+  
+  // Update PIR sensor cache
+  lastPirStatus = digitalRead(pirSensorPin) == HIGH;
+
   // Check for timeout
-  if (millis() - lastActionTime > timeout) {
+  if (currentMillis - lastActionTime > timeout) {
     digitalWrite(redLedPin, LOW); // Turn off red LED
     digitalWrite(blueLedPin, LOW); // Turn off blue LED
   }
 
   // Handle PIR LED logic
-  int pirStatus = digitalRead(pirSensorPin);
-  if (pirStatus == HIGH && !pirLedActive) {
+  if (lastPirStatus && !pirLedActive) {
     digitalWrite(pirLedPin, HIGH); // Turn on PIR LED
-    pirLedStartTime = millis();
+    pirLedStartTime = currentMillis;
     pirLedActive = true;
   }
 
-  if (pirLedActive && millis() - pirLedStartTime >= 20000) {
+  if (pirLedActive && currentMillis - pirLedStartTime >= 20000) {
     digitalWrite(pirLedPin, LOW); // Turn off PIR LED after 20 seconds
     pirLedActive = false;
   }
+  
+  // Read piezo sensor and handle debouncing
+  int piezoValue = analogRead(piezoPin);
+  if (piezoValue > piezoThreshold && (currentMillis - lastDarbeTime > debounceDelay)) {
+    parkYeriDolu = !parkYeriDolu; // Toggle park status
+    lastDarbeTime = currentMillis; // Update last darbe time
+
+    // Update LEDs based on park status
+    if (parkYeriDolu) {
+      digitalWrite(redLedPin, HIGH);
+      digitalWrite(blueLedPin, LOW);
+      Serial.println("Park DOLU (Arac girdi)");
+    } else {
+      digitalWrite(redLedPin, LOW);
+      digitalWrite(blueLedPin, HIGH);
+      Serial.println("Park BOS (Arac cikti)");
+    }
+  }
+  
+  // Small delay to prevent processor overload
+  delay(10);
 }

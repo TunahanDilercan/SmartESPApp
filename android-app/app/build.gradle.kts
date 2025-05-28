@@ -46,7 +46,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.10.0") // Updated material version
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
@@ -57,6 +57,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    
+    // Additional test dependencies
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    
+    // Network and JSON libraries
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("org.json:json:20230227") // Added JSON library
 
 }

@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "**/res/values/*.xml": "xml",
+        "**/res/values*/*.xml": "xml", 
+        "**/res/**/*.xml": "xml",
+        "colors.xml": "xml",
+        "**/android-app/app/src/main/res/values/colors.xml": "xml"
+    },
+    "files.exclude": {
+        "**/.gradle": true,
+        "**/build": true
+    },
+    "kotlin.analysis.excludeFolders": [
+        "**/res/**",
+        "**/src/main/res/**"
+    ]
+}
